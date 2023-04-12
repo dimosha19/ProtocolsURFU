@@ -4,6 +4,7 @@ import requests
 
 
 def print_info(msg):
+    if msg[0] == "p": return
     print(*msg, sep="\t")
 
 
@@ -30,15 +31,17 @@ class Trace:
         r = re.findall(self.__ipregex, obj)
         for i in r[1:]:
             msg = self.get_info(i)
-            if len(msg) == 4:
+            if len(msg) != 1:
                 print_info(msg)
+        if self.__counter == 0:
+            print("invalid query")
 
     def get_info(self, ip):
         try:
             response = requests.get(url=self.__ip_api + ip).json()
             if response.get('status') == "success":
                 self.__counter += 1
-                return [self.__counter,
+                return [self.__counter, response.get('query'),
                         response.get('country'), response.get('isp'), response.get('as').split(" ")[0]]
             else:
                 return response.get('message')
