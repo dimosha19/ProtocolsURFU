@@ -92,6 +92,7 @@ def server_loop(local_host, local_port):
                     _cache[r.name][r.type] = r
 
                     server.sendto(binascii.unhexlify(answer), addr)
+                    continue
             else:
                 print(f"no {q.name} in cache, go to DNS...")
                 answer = DNS(query, addr, remote_socket)
@@ -102,6 +103,7 @@ def server_loop(local_host, local_port):
                 _cache[r.name][r.type] = r
 
                 server.sendto(binascii.unhexlify(answer), addr)
+                continue
 
         for i in _cache:
             for j in _cache[i]:
