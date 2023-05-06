@@ -6,7 +6,7 @@ offset_query = 24
 offset_len_name = 26
 
 
-class HeaderParser():
+class Header():
     transactionID = None
     flags = None
     questions = None
@@ -23,7 +23,7 @@ class HeaderParser():
         self.additional = data[20:24]
 
 
-class QueryParser(HeaderParser):
+class Query(Header):
     name = None
     type = None
     clss = None
@@ -36,10 +36,10 @@ class QueryParser(HeaderParser):
         self.get_type()
         self.get_clss()
 
-    def get_id(self):
+    def get_id(self): # unused
         self.transactionID = self.__dataQuery[:4]
 
-    def get_flags(self):
+    def get_flags(self): # unused
         self.flags = self.__dataQuery[4:8]
 
     def get_name(self):
@@ -68,7 +68,7 @@ class QueryParser(HeaderParser):
         self.clss = self.__dataQuery[self.__len_name_offset + 4:self.__len_name_offset + 8]
 
 
-class ResponseParser(QueryParser):
+class Response(Query):
     response = None
     __offset = None
     res = None
@@ -128,7 +128,7 @@ class ResponseParser(QueryParser):
         self.res = res
 
     def build(self):
-        res = "8180"
+        res = "8500"
         res += self.questions
         res += "0" * (4 - len(str(len(self.res["ans"])))) + str(len(self.res["ans"]))
         res += "0" * (4 - len(str(len(self.res["athr"])))) + str(len(self.res["athr"]))
@@ -155,7 +155,7 @@ def main():
     # d = load_cache()
     # print(d[1].build())
     data1 = "002b818000010004000000000679616e6465780272750000010001c00c00010001000000bb000405ffff46c00c00010001000000bb00044d58373cc00c00010001000000bb00044d583758c00c00010001000000bb000405ffff4d"
-    r1 = ResponseParser(data1)
+    r1 = Response(data1)
     # data2 = "0007818000010002000000030679616e6465780272750000020001c00c00020001000051810006036e7332c00cc00c00020001000051810006036e7331c00cc0390001000100014f900004d5b4c101c027000100010000945300045d9e8601c039001c000100000dd600102a0206b8000000000000000000000001"
     # r2 = ResponseParser(data2)
     # dump_cache([r1, r2])
