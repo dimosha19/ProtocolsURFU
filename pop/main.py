@@ -5,8 +5,8 @@ from email.header import decode_header
 
 
 def write_attch(file_name, file):
-    os.makedirs('attachments', exist_ok=True)
-    filepath = os.path.join('attachments', file_name).replace("\"", "")
+    os.makedirs('src', exist_ok=True)
+    filepath = os.path.join('src', file_name).replace("\"", "")
     with open(filepath, 'wb') as f:
         f.write(file)
 
