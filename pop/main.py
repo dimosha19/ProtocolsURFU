@@ -66,8 +66,3 @@ if __name__ == "__main__":
         parser(msg)
     else:
         exit(1)
-"""
-dimitri.shilnikov@yandex.ru
-fgswrrqqypxasrrc
-
-"""
